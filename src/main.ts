@@ -4,6 +4,7 @@ import router from './router'
 import { i18n } from './composables/useLocale'
 import { usePreferenceStore } from './stores/preference'
 import { useTaskStore } from './stores/task'
+import { useAppStore } from './stores/app'
 import aria2Api, { initClient } from './api/aria2'
 import { ENGINE_RPC_PORT } from '@shared/constants'
 import App from './App.vue'
@@ -20,6 +21,7 @@ app.mount('#app')
 
 const preferenceStore = usePreferenceStore()
 const taskStore = useTaskStore()
+const appStore = useAppStore()
 
 async function waitForEngine(port: number, secret: string, maxRetries = 15): Promise<boolean> {
     const { Aria2 } = await import('@shared/aria2')
@@ -35,6 +37,26 @@ async function waitForEngine(port: number, secret: string, maxRetries = 15): Pro
         }
     }
     return false
+}
+
+async function autoCheckForUpdate() {
+    const config = (preferenceStore.config || {}) as Record<string, unknown>
+    if (config.autoCheckUpdate === false) return
+
+    const lastCheck = (config.lastCheckUpdateTime as number) || 0
+    const intervalMs = ((config.autoCheckUpdateInterval as number) || 24) * 3_600_000
+    if (Date.now() - lastCheck < intervalMs) return
+
+    try {
+        const { check } = await import('@tauri-apps/plugin-updater')
+        const update = await check()
+        preferenceStore.updateAndSave({ lastCheckUpdateTime: Date.now() })
+        if (update?.available) {
+            appStore.pendingUpdate = update
+        }
+    } catch (e) {
+        console.warn('[updater] auto check failed:', e)
+    }
 }
 
 preferenceStore.loadPreference().then(async () => {
@@ -77,5 +99,7 @@ preferenceStore.loadPreference().then(async () => {
     } catch (e) {
         console.warn('[aria2] WebSocket failed, using HTTP fallback:', e)
     }
+
+    autoCheckForUpdate()
 })
 

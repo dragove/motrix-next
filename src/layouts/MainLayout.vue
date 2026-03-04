@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick } from 'vue'
+import { computed, ref, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -15,6 +15,7 @@ import Speedometer from '@/components/layout/Speedometer.vue'
 import WindowControls from '@/components/layout/WindowControls.vue'
 import AboutPanel from '@/components/about/AboutPanel.vue'
 import AddTask from '@/components/task/AddTask.vue'
+import UpdateDialog from '@/components/preference/UpdateDialog.vue'
 import { useTaskStore } from '@/stores/task'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import { open as openDialog } from '@tauri-apps/plugin-dialog'
@@ -36,9 +37,18 @@ const appReady = ref(false)
 const showExitDialog = ref(false)
 const isExiting = ref(false)
 
+const updateDialogRef = ref<InstanceType<typeof UpdateDialog> | null>(null)
+
 let unlistenDragDrop: (() => void) | null = null
 let unlistenMenuEvent: (() => void) | null = null
 let unlistenCloseRequested: (() => void) | null = null
+
+watch(() => appStore.pendingUpdate, (update) => {
+  if (update) {
+    nextTick(() => updateDialogRef.value?.open())
+    appStore.pendingUpdate = null
+  }
+})
 
 async function handleExitConfirm() {
   isExiting.value = true
@@ -139,6 +149,7 @@ onUnmounted(() => {
       :type="appStore.addTaskType"
       @close="appStore.hideAddTaskDialog()"
     />
+    <UpdateDialog ref="updateDialogRef" />
 
     <!-- Exit confirmation dialog with synchronized fade animation -->
     <NModal

@@ -33,6 +33,7 @@ export const useAppStore = defineStore('app', () => {
     const addTaskOptions = ref<Record<string, unknown>>({})
     const droppedTorrentPaths = ref<string[]>([])
     const progress = ref(0)
+    const pendingUpdate = ref<any>(null)
 
     function updateInterval(millisecond: number) {
         let val = millisecond
@@ -153,6 +154,7 @@ export const useAppStore = defineStore('app', () => {
         addTaskOptions,
         droppedTorrentPaths,
         progress,
+        pendingUpdate,
         updateInterval,
         increaseInterval,
         decreaseInterval,

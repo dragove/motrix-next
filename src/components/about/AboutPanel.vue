@@ -1,14 +1,18 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { NModal, NCard, NIcon, NButton, NTag, NDivider } from 'naive-ui'
 import { LogoGithub, HeartOutline, DocumentTextOutline, RocketOutline } from '@vicons/ionicons5'
+import { getVersion } from '@tauri-apps/api/app'
 
 defineProps<{ show: boolean }>()
 const emit = defineEmits<{ close: [] }>()
 
 const { t } = useI18n()
-const version = '3.0.0'
+const version = ref('')
 const year = new Date().getFullYear()
+
+onMounted(async () => { version.value = await getVersion() })
 
 const techStack = [
   { name: 'Tauri v2', color: '#FFC131' },
