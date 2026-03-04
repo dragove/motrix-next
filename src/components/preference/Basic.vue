@@ -236,16 +236,16 @@ onMounted(async () => {
         </NFormItem>
       </NCollapseTransition>
       <NFormItem :label="t('preferences.last-check-update-time')">
-        <NSpace align="center" :size="16">
-          <NText v-if="form.lastCheckUpdateTime" depth="3" style="font-size: 13px;">
-            {{ new Date(form.lastCheckUpdateTime).toLocaleString() }}
-          </NText>
-          <NText v-else depth="3" style="font-size: 13px;">—</NText>
+        <div style="display: flex; align-items: center; gap: 16px;">
           <NButton size="small" @click="handleCheckUpdate">
             <template #icon><NIcon :size="14"><CloudDownloadOutline /></NIcon></template>
             {{ t('app.check-updates-now') }}
           </NButton>
-        </NSpace>
+          <NText v-if="form.lastCheckUpdateTime" depth="3" style="font-size: 13px;">
+            {{ new Date(form.lastCheckUpdateTime).toLocaleString() }}
+          </NText>
+          <NText v-else depth="3" style="font-size: 13px;">—</NText>
+        </div>
       </NFormItem>
       <UpdateDialog ref="updateDialogRef" />
 
