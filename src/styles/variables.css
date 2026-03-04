@@ -255,3 +255,9 @@ textarea {
 .n-dialog {
     transform-origin: center center !important;
 }
+
+.n-dialog .n-button {
+    min-width: 68px;
+    height: 32px;
+    padding: 0 16px;
+}

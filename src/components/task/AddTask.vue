@@ -273,6 +273,7 @@ onUnmounted(() => { document.removeEventListener('keydown', handleHotkey) })
     :show="props.show"
     :mask-closable="false"
     :close-on-esc="true"
+    :auto-focus="false"
     transform-origin="center"
     :transition="{ name: 'fade-scale' }"
     @update:show="(v: boolean) => { if (!v) handleClose() }"
