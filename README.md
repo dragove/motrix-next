@@ -20,7 +20,6 @@ The legacy Electron + Vue 2 stack had become difficult to maintain. Rather than 
 - **Styling** — SCSS + Element theme → **Vanilla CSS + CSS custom properties**
 - **Engine management** — Node.js `child_process` → **Tauri sidecar**
 - **Build** — electron-builder → **Vite + Cargo**
-- **UI** — Every view, dialog, and panel redesigned and reimplemented
 
 Version numbering has been reset to reflect this clean break. The i18n translations (25+ languages), aria2 RPC protocol support, and overall UX philosophy have been preserved.
 
