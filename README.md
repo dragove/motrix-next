@@ -10,35 +10,19 @@
 
 ## Background
 
-Motrix Next stands on the shoulders of [Motrix](https://github.com/agalwood/Motrix) — a wonderful open-source download manager created by [agalwood](https://github.com/agalwood) and shaped by many talented contributors over the years. We are deeply grateful for their work, which laid the foundation and inspired this project.
+Motrix Next is built upon the ideas of [Motrix](https://github.com/agalwood/Motrix) by [agalwood](https://github.com/agalwood). We are grateful to the original creators and contributors — their aria2 integration, i18n translations, and download logic served as invaluable reference throughout development.
 
-The original Motrix codebase provided invaluable reference material, including its aria2 RPC integration patterns, comprehensive i18n translations across 25+ languages, and the thoughtful download management logic that made the tool so reliable. Without these contributions, Motrix Next would not exist.
+The legacy Electron + Vue 2 stack had become difficult to maintain. Rather than patching further, Motrix Next rebuilds the application with a modern architecture:
 
-### Why a Rewrite
+- **Runtime** — Electron → **Tauri 2** (Rust-based, significantly smaller and lighter)
+- **Frontend** — Vue 2 + Vuex + Element UI → **Vue 3 Composition API + Pinia + Naive UI**
+- **Language** — JavaScript → **TypeScript**
+- **Styling** — SCSS + Element theme → **Vanilla CSS + CSS custom properties**
+- **Engine management** — Node.js `child_process` → **Tauri sidecar**
+- **Build** — electron-builder → **Vite + Cargo**
+- **UI** — Every view, dialog, and panel redesigned and reimplemented
 
-The legacy stack — Electron as the runtime, Vue 2 with Vuex for state management, and Element UI for components — served Motrix well for years. However, as the ecosystem evolved, maintaining and extending the codebase became increasingly challenging. Rather than continuing to patch on top of it, we chose to rebuild from the ground up with a modern architecture, while carrying forward the core experience and design philosophy that made Motrix great.
-
-### What Was Rewritten
-
-Nearly the entire application has been rewritten:
-
-- **Runtime layer** — Migrated from Electron to **Tauri 2** (Rust-based), reducing bundle size from ~180 MB to ~15 MB and idle memory from ~200 MB to ~40 MB
-- **Frontend** — Rewritten from Vue 2 + Vuex + Element UI to **Vue 3 Composition API + Pinia + Naive UI**
-- **Language** — Converted the full codebase from JavaScript to **TypeScript** for type safety
-- **Styling** — Replaced SCSS + Element theme overrides with **vanilla CSS + CSS custom properties**
-- **Backend integration** — Replaced Node.js `child_process` with **Tauri sidecar** for managing the aria2 engine
-- **Build pipeline** — Switched from electron-builder to **Vite + Cargo**
-- **State management** — Rebuilt all stores using Pinia with the Composition API pattern
-- **UI components** — Every view, dialog, and panel has been redesigned and reimplemented
-
-Version numbering has been reset to reflect this clean break.
-
-### What Was Preserved
-
-- Full aria2 RPC protocol support (HTTP, FTP, BitTorrent, Magnet)
-- Comprehensive i18n system with 25+ languages (translations carried over with gratitude)
-- User-Agent configuration, tracker management, and advanced download settings
-- The overall UX flow and design philosophy that users know and love
+Version numbering has been reset to reflect this clean break. The i18n translations (25+ languages), aria2 RPC protocol support, and overall UX philosophy have been preserved.
 
 ## Features
 
