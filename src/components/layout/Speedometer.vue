@@ -4,7 +4,7 @@ import { useAppStore } from '@/stores/app'
 import { usePreferenceStore } from '@/stores/preference'
 import { bytesToSize } from '@shared/utils'
 import { NIcon } from 'naive-ui'
-import { SpeedometerOutline } from '@vicons/ionicons5'
+import { SpeedometerOutline, ArrowUpOutline, ArrowDownOutline } from '@vicons/ionicons5'
 
 const appStore = useAppStore()
 const preferenceStore = usePreferenceStore()
@@ -24,8 +24,14 @@ const uploadSpeed = computed(() => bytesToSize(String(stat.value.uploadSpeed)))
       </i>
     </div>
     <div class="value" :class="{ hidden: isStopped }">
-      <em>{{ uploadSpeed }}/s</em>
-      <span>{{ downloadSpeed }}/s</span>
+      <div class="speed-row upload">
+        <NIcon :size="10" class="speed-arrow"><ArrowUpOutline /></NIcon>
+        <em>{{ uploadSpeed }}/s</em>
+      </div>
+      <div class="speed-row download">
+        <NIcon :size="10" class="speed-arrow"><ArrowDownOutline /></NIcon>
+        <span>{{ downloadSpeed }}/s</span>
+      </div>
     </div>
   </div>
 </template>
@@ -39,9 +45,9 @@ const uploadSpeed = computed(() => bytesToSize(String(stat.value.uploadSpeed)))
   z-index: 20;
   display: inline-block;
   box-sizing: border-box;
-  width: 115px;
+  width: 135px;
   height: 40px;
-  padding: 5px 10px 5px 40px;
+  padding: 4px 12px 4px 40px;
   border-radius: 100px;
   transition: width .35s cubic-bezier(.4, 0, .2, 1),
               padding .35s cubic-bezier(.4, 0, .2, 1),
@@ -111,10 +117,8 @@ const uploadSpeed = computed(() => bytesToSize(String(stat.value.uploadSpeed)))
   color: var(--speedometer-primary);
 }
 .value {
-  font-size: 0;
   overflow: hidden;
   width: 100%;
-  text-align: right;
   white-space: nowrap;
   text-overflow: ellipsis;
   opacity: 1;
@@ -127,19 +131,36 @@ const uploadSpeed = computed(() => bytesToSize(String(stat.value.uploadSpeed)))
   transform: translateX(-8px);
   pointer-events: none;
 }
-.value em {
-  font-size: 16px;
-  line-height: 12px;
-  display: block;
-  width: 120%;
-  transform: scale(.625);
+.speed-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  justify-content: flex-end;
+}
+.speed-arrow {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.speed-row.upload {
   color: var(--speedometer-text);
 }
-.value span {
-  font-size: 13px;
+.speed-row.upload em {
+  font-style: normal;
+  font-size: 11px;
   line-height: 14px;
-  display: block;
-  margin-top: 2px;
+}
+.speed-row.upload .speed-arrow {
+  color: var(--speedometer-text);
+}
+.speed-row.download {
+  color: var(--speedometer-primary);
+}
+.speed-row.download span {
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 500;
+}
+.speed-row.download .speed-arrow {
   color: var(--speedometer-primary);
 }
 </style>

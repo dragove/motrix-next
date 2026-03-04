@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { ADD_TASK_TYPE } from '@shared/constants'
+import { invoke } from '@tauri-apps/api/core'
+import { bytesToSize } from '@shared/utils'
 
 const BASE_INTERVAL = 1000
 const PER_INTERVAL = 100
@@ -85,6 +87,16 @@ export const useAppStore = defineStore('app', () => {
                 increaseInterval()
             }
             stat.value = parsed as typeof stat.value
+
+            // Update macOS tray title with download speed
+            try {
+                if (numActive > 0 && parsed.downloadSpeed > 0) {
+                    const speed = bytesToSize(String(parsed.downloadSpeed))
+                    await invoke('update_tray_title', { title: `↓ ${speed}/s` })
+                } else {
+                    await invoke('update_tray_title', { title: '' })
+                }
+            } catch { /* tray not available */ }
         } catch (e) {
             console.warn((e as Error).message)
         }

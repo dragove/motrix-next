@@ -35,11 +35,6 @@ pub fn start_engine(app: &tauri::AppHandle, config: &serde_json::Value) -> Resul
     let exe_dir = exe_dir.parent().ok_or("Failed to get exe dir")?;
     let conf_path = exe_dir.join("binaries").join("aria2.conf");
     let conf_str = conf_path.to_string_lossy().to_string();
-    eprintln!(
-        "[aria2c] conf path: {} (exists: {})",
-        conf_str,
-        conf_path.exists()
-    );
 
     // Session file for persisting active/paused downloads across restarts
     let session_path = app
@@ -54,12 +49,6 @@ pub fn start_engine(app: &tauri::AppHandle, config: &serde_json::Value) -> Resul
         let _ = std::fs::create_dir_all(parent);
     }
 
-    eprintln!(
-        "[aria2c] session path: {} (exists: {})",
-        session_str,
-        session_path.exists()
-    );
-
     let args = build_start_args(
         config,
         if conf_path.exists() {
@@ -70,7 +59,6 @@ pub fn start_engine(app: &tauri::AppHandle, config: &serde_json::Value) -> Resul
         &session_str,
         session_path.exists(),
     );
-    eprintln!("[aria2c] starting with args: {:?}", args);
 
     let sidecar = app
         .shell()
@@ -88,14 +76,9 @@ pub fn start_engine(app: &tauri::AppHandle, config: &serde_json::Value) -> Resul
     tauri::async_runtime::spawn(async move {
         while let Some(event) = rx.recv().await {
             match event {
-                CommandEvent::Stdout(line) => {
-                    eprintln!("[aria2c stdout] {}", String::from_utf8_lossy(&line));
-                }
-                CommandEvent::Stderr(line) => {
-                    eprintln!("[aria2c stderr] {}", String::from_utf8_lossy(&line));
-                }
-                CommandEvent::Terminated(payload) => {
-                    eprintln!("[aria2c] terminated with code: {:?}", payload.code);
+                CommandEvent::Stdout(_line) => {}
+                CommandEvent::Stderr(_line) => {}
+                CommandEvent::Terminated(_payload) => {
                     if let Some(state) = app_handle.try_state::<EngineState>() {
                         if let Ok(mut child_lock) = state.child.lock() {
                             *child_lock = None;

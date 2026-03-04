@@ -131,11 +131,19 @@ function handleDeleteTask(task: Record<string, unknown>) {
     ]),
     positiveText: t('app.yes'),
     negativeText: t('app.no'),
-    onPositiveClick: async () => {
-      await taskStore.removeTask(task as never)
-      if (deleteFiles.value) {
-        await deleteTaskFiles(task)
-      }
+    onPositiveClick: () => {
+      // Return a promise so Naive UI shows loading spinner on the button
+      return new Promise<void>(async (resolve) => {
+        try {
+          await taskStore.removeTask(task as never)
+          if (deleteFiles.value) {
+            await deleteTaskFiles(task)
+          }
+        } catch (e) {
+          console.error('Delete failed:', e)
+        }
+        resolve()
+      })
     },
   })
 }
