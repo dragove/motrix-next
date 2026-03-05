@@ -185,7 +185,7 @@ function handleClose() {
         <Transition :name="`tab-slide-${slideDirection}`" mode="out-in">
           <div v-if="activeTab === 'general'" key="general" class="tab-content">
             <template v-if="task">
-              <NDescriptions :column="1" label-placement="left" bordered size="small">
+              <NDescriptions :column="1" label-placement="left" bordered size="small" :label-style="{ minWidth: '100px', whiteSpace: 'nowrap' }">
                 <NDescriptionsItem :label="t('task.task-gid') || 'GID'">{{ task.gid }}</NDescriptionsItem>
                 <NDescriptionsItem :label="t('task.task-name') || 'Name'">{{ taskFullName }}</NDescriptionsItem>
                 <NDescriptionsItem :label="t('task.task-dir') || 'Directory'">{{ task.dir }}</NDescriptionsItem>
