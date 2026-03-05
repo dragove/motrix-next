@@ -1,4 +1,4 @@
 export default {
-  'task-list': 'Daftar Tugas',
+  'task-list': 'Tugas',
   'preferences': 'Pengaturan'
 }

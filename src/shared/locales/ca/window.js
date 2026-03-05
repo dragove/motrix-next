@@ -1,8 +1,8 @@
 export default {
-  'reload': 'Recarregar',
-  'close': 'Tancar',
-  'minimize': 'Minimitzar',
+  'reload': 'Recarrega',
+  'close': 'Tanca',
+  'minimize': 'Minimitza',
   'zoom': 'Zoom',
-  'toggle-fullscreen': 'Posar a Pantalla Completa',
-  'front': 'Posar Tot Al Front'
+  'toggle-fullscreen': 'Pantalla completa',
+  'front': 'Porta-ho tot al davant'
 }

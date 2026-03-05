@@ -1,7 +1,7 @@
 export default {
-  'official-website': 'Oficjalna strona internetowa',
-  'manual': 'Instrukcja',
-  'release-notes': 'Dziennik wydań...',
+  'official-website': 'Oficjalna strona',
+  'manual': 'Podręcznik użytkownika',
+  'release-notes': 'Informacje o wydaniu...',
   'report-problem': 'Zgłoś problem',
-  'toggle-dev-tools': 'Włącz narzędzia dla developerów'
+  'toggle-dev-tools': 'Narzędzia programistyczne'
 }

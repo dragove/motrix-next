@@ -1,4 +1,4 @@
 export default {
-  'task-list': 'タスクリスト',
+  'task-list': 'タスク一覧',
   'preferences': '環境設定'
 }

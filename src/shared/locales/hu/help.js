@@ -1,7 +1,7 @@
 export default {
-  'official-website': 'Motrix Next Weboldala',
-  'manual': 'Kézikönyv',
-  'release-notes': 'Valtózások...',
-  'report-problem': 'Hiba jelentés',
-  'toggle-dev-tools': 'Fejlesztöi eszközök'
+  'official-website': 'Hivatalos weboldal',
+  'manual': 'Felhasználói kézikönyv',
+  'release-notes': 'Kiadási megjegyzések...',
+  'report-problem': 'Hiba jelentése',
+  'toggle-dev-tools': 'Fejlesztői eszközök'
 }

@@ -1,7 +1,7 @@
 export default {
   'engine-version': 'Motorversjon',
-  'license': 'Tillatelse',
+  'license': 'Lisens',
   'about': 'Om',
-  'release': 'Utgivelser',
+  'release': 'Utgivelsesmerknader',
   'support': 'Brukerstøtte'
 }

@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'Έκδοση Μηχανής',
+  'engine-version': 'Έκδοση μηχανής',
   'license': 'Άδεια',
   'about': 'Σχετικά',
-  'release': 'Έκδοση',
+  'release': 'Σημειώσεις έκδοσης',
   'support': 'Υποστήριξη'
 }

@@ -1,9 +1,9 @@
 export default {
-  'undo': 'ไม่ทำ',
+  'undo': 'เลิกทำ',
   'redo': 'ทำซ้ำ',
   'cut': 'ตัด',
   'copy': 'คัดลอก',
   'paste': 'วาง',
-  'delete': 'ลบทิ้ง',
+  'delete': 'ลบ',
   'select-all': 'เลือกทั้งหมด'
 }

@@ -1,8 +1,8 @@
 export default {
-  'app': 'موتركس',
-  'file': 'الملف',
-  'task': 'التحميل',
-  'edit': 'تعديل',
-  'window': 'النافذة',
-  'help': 'المساعدة'
+  'app': 'Motrix Next',
+  'file': 'ملف',
+  'task': 'مهمة',
+  'edit': 'تحرير',
+  'window': 'نافذة',
+  'help': 'مساعدة'
 }

@@ -1,7 +1,7 @@
 export default {
-  'official-website': 'سایت ماتریکس',
-  'manual': 'کتابچهٔ راهنما',
+  'official-website': 'وب‌سایت رسمی',
+  'manual': 'راهنمای کاربر',
   'release-notes': 'یادداشت‌های انتشار...',
   'report-problem': 'گزارش مشکل',
-  'toggle-dev-tools': 'تغییر حالت ابزارهای توسعه‌دهنده'
+  'toggle-dev-tools': 'ابزارهای توسعه‌دهنده'
 }

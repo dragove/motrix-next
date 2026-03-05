@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'バージョンを確認',
+  'engine-version': 'エンジンバージョン',
   'license': 'ライセンス',
-  'about': '私たちについて',
+  'about': 'について',
   'release': 'リリースノート',
   'support': 'サポート'
 }

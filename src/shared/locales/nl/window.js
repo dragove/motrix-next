@@ -1,8 +1,8 @@
 export default {
-  'reload': 'Vervesen',
+  'reload': 'Herladen',
   'close': 'Sluiten',
   'minimize': 'Minimaliseren',
   'zoom': 'Zoomen',
-  'toggle-fullscreen': 'Volledig scherm tonen',
-  'front': 'Alles naar voorgrond brengen'
+  'toggle-fullscreen': 'Volledig scherm',
+  'front': 'Alles naar voren'
 }

@@ -5,5 +5,5 @@ export default {
   'copy': 'Salin',
   'paste': 'Tempel',
   'delete': 'Hapus',
-  'select-all': 'Pilih Semua'
+  'select-all': 'Pilih semua'
 }

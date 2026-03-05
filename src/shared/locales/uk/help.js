@@ -1,7 +1,7 @@
 export default {
-  'official-website': 'Сайт Motrix Next',
-  'manual': 'Інструкція',
-  'release-notes': 'Примітки до релизу...',
+  'official-website': 'Офіційний сайт',
+  'manual': 'Посібник',
+  'release-notes': 'Примітки до випуску...',
   'report-problem': 'Повідомити про проблему',
-  'toggle-dev-tools': 'Переключити інстрменти розробника'
+  'toggle-dev-tools': 'Інструменти розробника'
 }

@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'เวอร์ชั่นเอ็นจิ้น',
-  'license': 'ใบอนุญาต',
+  'engine-version': 'เวอร์ชันเอนจิน',
+  'license': 'สัญญาอนุญาต',
   'about': 'เกี่ยวกับ',
-  'release': 'ปล่อยเวอร์ชั่น',
-  'support': 'การสนับสนุน'
+  'release': 'บันทึกการเปลี่ยนแปลง',
+  'support': 'ช่วยเหลือ'
 }

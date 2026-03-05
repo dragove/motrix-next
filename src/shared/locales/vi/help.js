@@ -1,7 +1,7 @@
 export default {
-  'official-website': 'Trang web của Motrix Next',
+  'official-website': 'Trang web chính thức',
   'manual': 'Hướng dẫn sử dụng',
-  'release-notes': 'Ghi chú Phát hành...',
-  'report-problem': 'Báo cáo Vấn đề',
-  'toggle-dev-tools': 'Mở công cụ Dành cho Nhà phát triển'
+  'release-notes': 'Ghi chú phát hành...',
+  'report-problem': 'Báo cáo sự cố',
+  'toggle-dev-tools': 'Công cụ nhà phát triển'
 }

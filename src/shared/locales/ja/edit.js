@@ -1,9 +1,9 @@
 export default {
   'undo': '元に戻す',
   'redo': 'やり直す',
-  'cut': '切り取り',
+  'cut': 'カット',
   'copy': 'コピー',
-  'paste': '貼り付け',
+  'paste': 'ペースト',
   'delete': '削除',
-  'select-all': 'すべてを選択'
+  'select-all': 'すべて選択'
 }

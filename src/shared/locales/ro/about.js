@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'Versiune Motor',
+  'engine-version': 'Versiune motor',
   'license': 'Licență',
   'about': 'Despre',
-  'release': 'Versiuni',
-  'support': 'Ajutor'
+  'release': 'Note de lansare',
+  'support': 'Asistență'
 }

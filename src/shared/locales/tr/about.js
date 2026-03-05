@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'Engine Versiyonu',
+  'engine-version': 'Motor sürümü',
   'license': 'Lisans',
   'about': 'Hakkında',
-  'release': 'Sürüm',
+  'release': 'Sürüm notları',
   'support': 'Destek'
 }

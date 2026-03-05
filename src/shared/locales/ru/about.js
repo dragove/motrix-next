@@ -1,7 +1,7 @@
 export default {
   'engine-version': 'Версия движка',
   'license': 'Лицензия',
-  'about': 'Информация',
-  'release': 'Релиз',
+  'about': 'О программе',
+  'release': 'Примечания к выпуску',
   'support': 'Поддержка'
 }

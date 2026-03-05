@@ -1,6 +1,6 @@
 export default {
-  'undo': 'Annuler la dernière action',
-  'redo': 'Rétablir la dernière action',
+  'undo': 'Annuler',
+  'redo': 'Rétablir',
   'cut': 'Couper',
   'copy': 'Copier',
   'paste': 'Coller',

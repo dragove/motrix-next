@@ -1,6 +1,6 @@
 export default {
-  'app': 'ماتریکس',
-  'file': 'پرونده',
+  'app': 'Motrix Next',
+  'file': 'فایل',
   'task': 'وظیفه',
   'edit': 'ویرایش',
   'window': 'پنجره',

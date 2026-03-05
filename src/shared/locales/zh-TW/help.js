@@ -1,7 +1,7 @@
 export default {
-  'official-website': 'Motrix Next 官網',
-  'manual': '使用說明',
-  'release-notes': '版本資訊...',
+  'official-website': '官方網站',
+  'manual': '使用手冊',
+  'release-notes': '發行說明...',
   'report-problem': '回報問題',
   'toggle-dev-tools': '開發者工具'
 }

@@ -1,8 +1,8 @@
 export default {
-  'reload': 'Muat Ulang',
-  'close': 'Keluar',
+  'reload': 'Muat ulang',
+  'close': 'Tutup',
   'minimize': 'Perkecil',
-  'zoom': 'Zoom',
+  'zoom': 'Perbesar',
   'toggle-fullscreen': 'Layar penuh',
-  'front': 'Bawa Semua ke Depan'
+  'front': 'Bawa semua ke depan'
 }

@@ -1,6 +1,6 @@
 export default {
   'app': 'Motrix Next',
-  'file': 'Tập tin',
+  'file': 'Tệp',
   'task': 'Tác vụ',
   'edit': 'Chỉnh sửa',
   'window': 'Cửa sổ',

@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'Версія двигуна',
+  'engine-version': 'Версія рушія',
   'license': 'Ліцензія',
-  'about': 'Інформація',
-  'release': 'Реліз',
+  'about': 'Про програму',
+  'release': 'Примітки до випуску',
   'support': 'Підтримка'
 }

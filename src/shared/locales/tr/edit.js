@@ -5,5 +5,5 @@ export default {
   'copy': 'Kopyala',
   'paste': 'Yapıştır',
   'delete': 'Sil',
-  'select-all': 'Hepsini seç'
+  'select-all': 'Tümünü seç'
 }

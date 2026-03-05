@@ -1,8 +1,8 @@
 export default {
   'app': 'Motrix Next',
   'file': 'Файл',
-  'task': 'Задания',
-  'edit': 'Редактировать',
+  'task': 'Задача',
+  'edit': 'Правка',
   'window': 'Окно',
-  'help': 'Помощь'
+  'help': 'Справка'
 }

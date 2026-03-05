@@ -1,7 +1,7 @@
 export default {
   'undo': 'Ongedaan maken',
-  'redo': 'Opnieuw doen',
-  'cut': 'Knipplen',
+  'redo': 'Opnieuw',
+  'cut': 'Knippen',
   'copy': 'Kopiëren',
   'paste': 'Plakken',
   'delete': 'Verwijderen',

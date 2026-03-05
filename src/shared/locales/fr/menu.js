@@ -2,7 +2,7 @@ export default {
   'app': 'Motrix Next',
   'file': 'Fichier',
   'task': 'Tâche',
-  'edit': 'Editer',
+  'edit': 'Édition',
   'window': 'Fenêtre',
   'help': 'Aide'
 }

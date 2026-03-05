@@ -1,4 +1,4 @@
 export default {
-  'task-list': 'งาน',
-  'preferences': 'ปรับแต่ง'
+  'task-list': 'รายการงาน',
+  'preferences': 'การตั้งค่า'
 }

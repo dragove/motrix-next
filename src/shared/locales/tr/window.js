@@ -1,8 +1,8 @@
 export default {
-  'reload': 'Yenile',
+  'reload': 'Yeniden yükle',
   'close': 'Kapat',
   'minimize': 'Küçült',
   'zoom': 'Yakınlaştır',
-  'toggle-fullscreen': 'Tam ekran yap',
-  'front': 'Tümünü Öne Getir'
+  'toggle-fullscreen': 'Tam ekran',
+  'front': 'Tümünü öne getir'
 }

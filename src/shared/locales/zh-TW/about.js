@@ -1,7 +1,7 @@
 export default {
   'engine-version': '引擎版本',
-  'license': '授權條款',
+  'license': '開源授權',
   'about': '關於',
-  'release': '版本資訊',
-  'support': '支援'
+  'release': '更新日誌',
+  'support': '說明與支援'
 }

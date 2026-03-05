@@ -1,9 +1,9 @@
 export default {
   'undo': 'Visszavonás',
-  'redo': 'Mégis',
-  'cut': 'Kivágas',
-  'copy': 'Másolas',
-  'paste': 'Beilesztés',
+  'redo': 'Újra',
+  'cut': 'Kivágás',
+  'copy': 'Másolás',
+  'paste': 'Beillesztés',
   'delete': 'Törlés',
-  'select-all': 'Minden kijelölés'
+  'select-all': 'Összes kijelölése'
 }

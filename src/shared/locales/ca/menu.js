@@ -1,8 +1,8 @@
 export default {
   'app': 'Motrix Next',
-  'file': 'Arxiu',
+  'file': 'Fitxer',
   'task': 'Tasca',
-  'edit': 'Editar',
+  'edit': 'Edita',
   'window': 'Finestra',
   'help': 'Ajuda'
 }

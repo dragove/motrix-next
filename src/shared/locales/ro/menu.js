@@ -1,8 +1,8 @@
 export default {
   'app': 'Motrix Next',
-  'file': 'File',
+  'file': 'Fișier',
   'task': 'Sarcină',
-  'edit': 'Edit',
-  'window': 'Fereastra',
+  'edit': 'Editare',
+  'window': 'Fereastră',
   'help': 'Ajutor'
 }

@@ -2,8 +2,8 @@ export default {
   'undo': 'Cofnij',
   'redo': 'Ponów',
   'cut': 'Wytnij',
-  'copy': 'Skopiuj',
+  'copy': 'Kopiuj',
   'paste': 'Wklej',
   'delete': 'Usuń',
-  'select-all': 'Wybierz wszystkie '
+  'select-all': 'Zaznacz wszystko'
 }

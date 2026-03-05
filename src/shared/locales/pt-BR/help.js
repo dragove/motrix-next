@@ -1,7 +1,7 @@
 export default {
-  'official-website': 'Motrix Next Website',
-  'manual': 'Manual',
-  'release-notes': 'Notas de Lançamento...',
-  'report-problem': 'Reportar um Problema',
-  'toggle-dev-tools': 'Alternar Developer Tools'
+  'official-website': 'Site oficial',
+  'manual': 'Manual do usuário',
+  'release-notes': 'Notas da versão...',
+  'report-problem': 'Relatar um problema',
+  'toggle-dev-tools': 'Ferramentas de desenvolvimento'
 }

@@ -1,8 +1,8 @@
 export default {
-  'reload': 'Reîncărcă',
+  'reload': 'Reîncarcă',
   'close': 'Închide',
   'minimize': 'Minimizează',
   'zoom': 'Zoom',
-  'toggle-fullscreen': 'Intră în mod ecran complet',
-  'front': 'Adu-le pe toate în față'
+  'toggle-fullscreen': 'Ecran complet',
+  'front': 'Adu totul în față'
 }

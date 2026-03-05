@@ -1,8 +1,8 @@
 export default {
   'app': 'Motrix Next',
-  'file': 'Berlas',
+  'file': 'Berkas',
   'task': 'Tugas',
-  'edit': 'Edit',
-  'window': 'Window',
+  'edit': 'Sunting',
+  'window': 'Jendela',
   'help': 'Bantuan'
 }

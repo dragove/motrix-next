@@ -1,7 +1,7 @@
 export default {
-  'official-website': 'Ιστοσελίδα του Motrix Next',
-  'manual': 'Εγχειρίδιο Οδηγιών',
+  'official-website': 'Επίσημη ιστοσελίδα',
+  'manual': 'Εγχειρίδιο',
   'release-notes': 'Σημειώσεις έκδοσης...',
-  'report-problem': 'Αναφέρετε ένα πρόβλημα',
-  'toggle-dev-tools': 'Εμφάνιση εργαλείων για προγραμματιστές'
+  'report-problem': 'Αναφορά προβλήματος',
+  'toggle-dev-tools': 'Εργαλεία ανάπτυξης'
 }

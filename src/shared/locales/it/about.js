@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'Versione Engine',
+  'engine-version': 'Versione motore',
   'license': 'Licenza',
-  'about': 'Chi siamo',
-  'release': 'Rilasci',
+  'about': 'Informazioni',
+  'release': 'Note di rilascio',
   'support': 'Supporto'
 }

@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'Versi Mesin',
+  'engine-version': 'Versi mesin',
   'license': 'Lisensi',
   'about': 'Tentang',
-  'release': 'Rilis',
-  'support': 'Bantuan'
+  'release': 'Catatan rilis',
+  'support': 'Dukungan'
 }

@@ -1,9 +1,9 @@
 export default {
-  'undo': 'Undo',
-  'redo': 'Redo',
-  'cut': 'Taie',
+  'undo': 'Anulează',
+  'redo': 'Refă',
+  'cut': 'Decupează',
   'copy': 'Copiază',
-  'paste': 'Lipeşte',
-  'delete': 'Şterge',
+  'paste': 'Lipește',
+  'delete': 'Șterge',
   'select-all': 'Selectează tot'
 }

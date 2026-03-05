@@ -1,9 +1,9 @@
 export default {
   'undo': 'Angre',
-  'redo': 'Utfør igjen',
-  'cut': 'Klipp',
+  'redo': 'Gjør om',
+  'cut': 'Klipp ut',
   'copy': 'Kopier',
   'paste': 'Lim inn',
-  'delete': 'Fjern',
-  'select-all': 'Velg alle'
+  'delete': 'Slett',
+  'select-all': 'Merk alt'
 }

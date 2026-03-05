@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'Motor verziója',
-  'license': 'Licensz',
+  'engine-version': 'Motor verzió',
+  'license': 'Licenc',
   'about': 'Névjegy',
-  'release': 'Kiadások',
-  'support': 'Segítség kérés'
+  'release': 'Kiadási megjegyzések',
+  'support': 'Támogatás'
 }

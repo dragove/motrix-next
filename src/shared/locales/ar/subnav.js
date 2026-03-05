@@ -1,4 +1,4 @@
 export default {
-  'task-list': 'قائمة التحميلات',
+  'task-list': 'المهام',
   'preferences': 'التفضيلات'
 }

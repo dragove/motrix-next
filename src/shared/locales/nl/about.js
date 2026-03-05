@@ -1,7 +1,7 @@
 export default {
-  'engine-version': 'Engine Versie',
+  'engine-version': 'Engineversie',
   'license': 'Licentie',
   'about': 'Over',
-  'release': 'Versie',
+  'release': 'Releaseopmerkingen',
   'support': 'Ondersteuning'
 }

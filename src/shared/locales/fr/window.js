@@ -3,6 +3,6 @@ export default {
   'close': 'Fermer',
   'minimize': 'Réduire',
   'zoom': 'Zoom',
-  'toggle-fullscreen': 'Passer en mode Plein écran',
-  'front': 'Tout mettre au premier plan'
+  'toggle-fullscreen': 'Plein écran',
+  'front': 'Tout au premier plan'
 }

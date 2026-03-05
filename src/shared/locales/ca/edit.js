@@ -1,9 +1,9 @@
 export default {
-  'undo': 'Desfer',
-  'redo': 'Refer',
-  'cut': 'Retallar',
-  'copy': 'Copiar',
-  'paste': 'Enganxar',
-  'delete': 'Eliminar',
-  'select-all': 'Seleccionar tot'
+  'undo': 'Desfés',
+  'redo': 'Refés',
+  'cut': 'Retalla',
+  'copy': 'Copia',
+  'paste': 'Enganxa',
+  'delete': 'Suprimeix',
+  'select-all': 'Selecciona-ho tot'
 }
