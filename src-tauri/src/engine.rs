@@ -369,3 +369,92 @@ fn cleanup_port(port: &str) {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn build_args_passes_whitelisted_keys() {
+        let config = json!({ "dir": "/tmp", "split": 16 });
+        let args = build_start_args(&config, None, "/tmp/s.session", false);
+        assert!(args.iter().any(|a| a == "--dir=/tmp"));
+        assert!(args.iter().any(|a| a == "--split=16"));
+    }
+
+    #[test]
+    fn build_args_rejects_non_whitelisted_keys() {
+        let config = json!({ "dir": "/tmp", "not-a-real-key": "value", "keep-seeding": true });
+        let args = build_start_args(&config, None, "/tmp/s.session", false);
+        assert!(!args.iter().any(|a| a.contains("not-a-real-key")));
+        assert!(!args.iter().any(|a| a.contains("keep-seeding")));
+    }
+
+    #[test]
+    fn build_args_forces_rpc_listen_all_false() {
+        let config = json!({ "rpc-listen-all": "true" });
+        let args = build_start_args(&config, None, "/tmp/s.session", false);
+        // Must NOT pass the user's rpc-listen-all=true
+        let rpc_args: Vec<_> = args
+            .iter()
+            .filter(|a| a.contains("rpc-listen-all"))
+            .collect();
+        assert_eq!(rpc_args.len(), 1);
+        assert_eq!(rpc_args[0], "--rpc-listen-all=false");
+    }
+
+    #[test]
+    fn build_args_keep_seeding_skips_seed_time() {
+        let config = json!({ "keep-seeding": true, "seed-time": "60" });
+        let args = build_start_args(&config, None, "/tmp/s.session", false);
+        assert!(!args.iter().any(|a| a.contains("seed-time")));
+    }
+
+    #[test]
+    fn build_args_keep_seeding_overrides_seed_ratio() {
+        let config = json!({ "keep-seeding": true, "seed-ratio": "1.0" });
+        let args = build_start_args(&config, None, "/tmp/s.session", false);
+        assert!(args.iter().any(|a| a == "--seed-ratio=0"));
+    }
+
+    #[test]
+    fn build_args_skips_empty_values() {
+        let config = json!({ "dir": "" });
+        let args = build_start_args(&config, None, "/tmp/s.session", false);
+        assert!(!args.iter().any(|a| a.contains("--dir=")));
+    }
+
+    #[test]
+    fn build_args_loads_session_on_exists() {
+        let args = build_start_args(&json!({}), None, "/tmp/s.session", true);
+        assert!(args.iter().any(|a| a == "--input-file=/tmp/s.session"));
+        assert!(args.iter().any(|a| a == "--save-session=/tmp/s.session"));
+    }
+
+    #[test]
+    fn build_args_no_input_file_when_no_session() {
+        let args = build_start_args(&json!({}), None, "/tmp/s.session", false);
+        assert!(!args.iter().any(|a| a.contains("input-file")));
+        assert!(args.iter().any(|a| a == "--save-session=/tmp/s.session"));
+    }
+
+    #[test]
+    fn build_args_includes_conf_path() {
+        let args = build_start_args(&json!({}), Some("/etc/aria2.conf"), "/tmp/s.session", false);
+        assert!(args.iter().any(|a| a == "--conf-path=/etc/aria2.conf"));
+    }
+
+    #[test]
+    fn build_args_enables_rpc_without_conf() {
+        let args = build_start_args(&json!({}), None, "/tmp/s.session", false);
+        assert!(args.iter().any(|a| a == "--enable-rpc=true"));
+        assert!(args.iter().any(|a| a == "--rpc-allow-origin-all=true"));
+    }
+
+    #[test]
+    fn build_args_no_rpc_enable_with_conf() {
+        let args = build_start_args(&json!({}), Some("/etc/aria2.conf"), "/tmp/s.session", false);
+        assert!(!args.iter().any(|a| a.contains("enable-rpc")));
+    }
+}

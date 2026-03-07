@@ -1,5 +1,6 @@
 mod commands;
 mod engine;
+mod error;
 mod menu;
 mod tray;
 

@@ -83,13 +83,20 @@ function handleDeleteTask(task: Aria2Task) {
   const name = getTaskName(task, { defaultName: 'Unknown', maxLen: 50 })
   const d = dialog.warning({
     title: t('task.delete-task'),
-    content: () => h('div', {}, [
-      h('p', { style: 'margin: 0 0 12px; word-break: break-all;' }, name),
-      h(NCheckbox, {
-        checked: deleteFiles.value,
-        'onUpdate:checked': (v: boolean) => { deleteFiles.value = v },
-      }, { default: () => t('task.delete-task-label') }),
-    ]),
+    content: () =>
+      h('div', {}, [
+        h('p', { style: 'margin: 0 0 12px; word-break: break-all;' }, name),
+        h(
+          NCheckbox,
+          {
+            checked: deleteFiles.value,
+            'onUpdate:checked': (v: boolean) => {
+              deleteFiles.value = v
+            },
+          },
+          { default: () => t('task.delete-task-label') },
+        ),
+      ]),
     positiveText: t('app.yes'),
     negativeText: t('app.no'),
     onPositiveClick: async () => {
@@ -98,7 +105,7 @@ function handleDeleteTask(task: Aria2Task) {
       d.closable = false
       d.maskClosable = false
       // Yield to browser so the loading spinner renders before heavy IPC work
-      await new Promise(r => setTimeout(r, 50))
+      await new Promise((r) => setTimeout(r, 50))
       try {
         await taskStore.removeTask(task)
         if (deleteFiles.value) {
@@ -125,7 +132,8 @@ async function handleShowInFolder(task: Aria2Task) {
   if (!filePath) return
   try {
     await revealItemInDir(filePath)
-  } catch { /* file deleted or inaccessible, show warning */
+  } catch (e) {
+    logger.debug('TaskView.openFile', e)
     message.warning(t('task.file-not-exist'))
   }
 }

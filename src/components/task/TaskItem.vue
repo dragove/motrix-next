@@ -3,10 +3,28 @@
 import { computed, ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { TASK_STATUS } from '@shared/constants'
-import { checkTaskIsSeeder, getTaskName, calcProgress, bytesToSize, timeRemaining, timeFormat, checkTaskIsBT } from '@shared/utils'
+import {
+  checkTaskIsSeeder,
+  getTaskName,
+  calcProgress,
+  bytesToSize,
+  timeRemaining,
+  timeFormat,
+  checkTaskIsBT,
+} from '@shared/utils'
 import { exists } from '@tauri-apps/plugin-fs'
+import { logger } from '@shared/logger'
 import { NProgress, NIcon } from 'naive-ui'
-import { ArrowUpOutline, ArrowDownOutline, GitNetworkOutline, MagnetOutline, AlertCircleOutline, CloudUploadOutline, CheckmarkCircleOutline, TrashOutline } from '@vicons/ionicons5'
+import {
+  ArrowUpOutline,
+  ArrowDownOutline,
+  GitNetworkOutline,
+  MagnetOutline,
+  AlertCircleOutline,
+  CloudUploadOutline,
+  CheckmarkCircleOutline,
+  TrashOutline,
+} from '@vicons/ionicons5'
 import TaskItemActions from './TaskItemActions.vue'
 import type { Aria2Task } from '@shared/types'
 
@@ -25,12 +43,12 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const taskFullName = computed(() =>
-  getTaskName(props.task, { defaultName: t('task.get-task-name') || 'Unknown', maxLen: -1 })
+  getTaskName(props.task, { defaultName: t('task.get-task-name') || 'Unknown', maxLen: -1 }),
 )
 
 const isSeeder = computed(() => checkTaskIsSeeder(props.task))
 const isBT = computed(() => checkTaskIsBT(props.task))
-const taskStatus = computed(() => isSeeder.value ? TASK_STATUS.SEEDING : props.task.status)
+const taskStatus = computed(() => (isSeeder.value ? TASK_STATUS.SEEDING : props.task.status))
 const isActive = computed(() => props.task.status === TASK_STATUS.ACTIVE)
 
 const percent = computed(() => calcProgress(props.task.totalLength, props.task.completedLength))
@@ -41,14 +59,23 @@ const uploadSpeed = computed(() => bytesToSize(props.task.uploadSpeed))
 
 const remaining = computed(() => {
   if (!isActive.value) return 0
-  return timeRemaining(Number(props.task.totalLength), Number(props.task.completedLength), Number(props.task.downloadSpeed))
+  return timeRemaining(
+    Number(props.task.totalLength),
+    Number(props.task.completedLength),
+    Number(props.task.downloadSpeed),
+  )
 })
 
 const remainingText = computed(() => {
   if (remaining.value <= 0) return ''
   return timeFormat(remaining.value, {
     prefix: t('task.remaining-prefix') || '',
-    i18n: { gt1d: t('app.gt1d') || '>1d', hour: t('app.hour') || 'h', minute: t('app.minute') || 'm', second: t('app.second') || 's' },
+    i18n: {
+      gt1d: t('app.gt1d') || '>1d',
+      hour: t('app.hour') || 'h',
+      minute: t('app.minute') || 'm',
+      second: t('app.second') || 's',
+    },
   })
 })
 
@@ -66,9 +93,12 @@ const progressColor = computed(() => statusColorMap[taskStatus.value] || '#E0A42
 
 const finishedTag = computed(() => {
   const s = props.task.status
-  if (s === TASK_STATUS.COMPLETE) return { label: t('task.task-complete') || 'Completed', color: '#67C23A', icon: CheckmarkCircleOutline }
-  if (s === TASK_STATUS.ERROR) return { label: t('task.task-error') || 'Error', color: '#F56C6C', icon: AlertCircleOutline }
-  if (s === TASK_STATUS.REMOVED) return { label: t('task.task-removed') || 'Removed', color: '#909399', icon: TrashOutline }
+  if (s === TASK_STATUS.COMPLETE)
+    return { label: t('task.task-complete') || 'Completed', color: '#67C23A', icon: CheckmarkCircleOutline }
+  if (s === TASK_STATUS.ERROR)
+    return { label: t('task.task-error') || 'Error', color: '#F56C6C', icon: AlertCircleOutline }
+  if (s === TASK_STATUS.REMOVED)
+    return { label: t('task.task-removed') || 'Removed', color: '#909399', icon: TrashOutline }
   return null
 })
 
@@ -99,7 +129,8 @@ async function checkFileExists() {
     if (firstFile) {
       fileMissing.value = !(await exists(firstFile))
     }
-  } catch { /* file system check failed, assume not missing */
+  } catch (e) {
+    logger.debug('TaskItem.fileCheck', e)
     fileMissing.value = false
   }
 }
@@ -192,7 +223,7 @@ watch(() => props.task.status, checkFileExists)
   background-color: var(--task-item-bg);
   border: 1px solid var(--task-item-border);
   border-radius: 6px;
-  transition: border-color .2s cubic-bezier(0.2, 0, 0, 1);
+  transition: border-color 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 .task-item:hover {
   border-color: var(--task-item-hover-border);
@@ -225,8 +256,12 @@ watch(() => props.task.status, checkFileExists)
   animation: fade-in 0.3s ease;
 }
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 0.85; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.85;
+  }
 }
 .task-item.file-missing {
   border-color: rgba(232, 128, 128, 0.2);
@@ -237,7 +272,7 @@ watch(() => props.task.status, checkFileExists)
   font-size: 12px;
   line-height: 14px;
   min-height: 14px;
-  color: #9B9B9B;
+  color: #9b9b9b;
   margin-top: 8px;
 }
 .progress-right {
@@ -264,13 +299,13 @@ watch(() => props.task.status, checkFileExists)
   align-items: center;
   gap: 3px;
   font-size: 13px;
-  color: #67C23A;
+  color: #67c23a;
   opacity: 0.9;
   vertical-align: middle;
   animation: fade-in 0.3s ease;
 }
 .task-item.is-seeding {
-  border-left: 3px solid #67C23A;
+  border-left: 3px solid #67c23a;
   background: linear-gradient(90deg, rgba(103, 194, 58, 0.04) 0%, transparent 40%);
 }
 .status-tag {
@@ -284,7 +319,7 @@ watch(() => props.task.status, checkFileExists)
 }
 .error-message {
   font-size: 11px;
-  color: #F56C6C;
+  color: #f56c6c;
   margin-top: 4px;
   opacity: 0.85;
   word-break: break-all;

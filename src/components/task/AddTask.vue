@@ -17,14 +17,28 @@ import { logger } from '@shared/logger'
 import { parseTorrentBuffer, uint8ToBase64 } from '@/composables/useTorrentParser'
 import bencode from 'bencode'
 import {
-  NModal, NCard, NTabs, NTabPane, NForm, NFormItem, NInput, NInputNumber,
-  NButton, NCheckbox, NSpace, NGrid, NGridItem, NIcon, NText, NInputGroup,
-  NCollapseTransition, NTooltip, NDataTable,
+  NModal,
+  NCard,
+  NTabs,
+  NTabPane,
+  NForm,
+  NFormItem,
+  NInput,
+  NInputNumber,
+  NButton,
+  NSpace,
+  NGrid,
+  NGridItem,
+  NIcon,
+  NInputGroup,
+  NDataTable,
 } from 'naive-ui'
 import { useAppMessage } from '@/composables/useAppMessage'
 import type { DataTableColumns } from 'naive-ui'
 import type { Aria2EngineOptions } from '@shared/types'
-import { CloudUploadOutline, FolderOpenOutline, TrashOutline } from '@vicons/ionicons5'
+import { FolderOpenOutline } from '@vicons/ionicons5'
+import TorrentUpload from './addtask/TorrentUpload.vue'
+import AdvancedOptions from './addtask/AdvancedOptions.vue'
 
 const props = defineProps<{ type: string; show: boolean }>()
 const emit = defineEmits<{ close: [] }>()
@@ -62,7 +76,7 @@ const form = ref({
   newTaskShowDownloading: config.newTaskShowDownloading !== false,
 })
 
-const dialogTop = computed(() => showAdvanced.value ? '8vh' : '12vh')
+const dialogTop = computed(() => (showAdvanced.value ? '8vh' : '12vh'))
 const maxSplit = computed(() => config.engineMaxConnectionPerServer || 64)
 
 const fileColumns: DataTableColumns = [
@@ -75,58 +89,79 @@ const fileColumns: DataTableColumns = [
     width: 100,
     render(row: Record<string, unknown>) {
       return bytesToSize(row.length as number)
-    }
+    },
   },
 ]
 
 const checkedRowKeys = computed({
   get: () => selectedFileIndices.value,
-  set: (keys: number[]) => { selectedFileIndices.value = keys }
+  set: (keys: number[]) => {
+    selectedFileIndices.value = keys
+  },
 })
 
 onMounted(async () => {
   if (!form.value.dir) {
-    try { form.value.dir = await downloadDir() } catch { form.value.dir = '~/Downloads' }
+    try {
+      form.value.dir = await downloadDir()
+    } catch (e) {
+      logger.debug('AddTask.dir', e)
+      form.value.dir = '~/Downloads'
+    }
   }
 })
 
-watch(() => props.type, (val) => { if (val) activeTab.value = val })
+watch(
+  () => props.type,
+  (val) => {
+    if (val) activeTab.value = val
+  },
+)
 
-watch(() => props.show, async (visible) => {
-  if (!visible) return
-  if (appStore.droppedTorrentPaths.length > 0) {
-    activeTab.value = ADD_TASK_TYPE.TORRENT
-    await loadTorrentFromPath(appStore.droppedTorrentPaths[0])
-    return
-  }
-  if (activeTab.value === ADD_TASK_TYPE.URI && !form.value.uris) {
-    if (appStore.addTaskUrl) {
-      form.value.uris = appStore.addTaskUrl
-      appStore.addTaskUrl = ''
+watch(
+  () => props.show,
+  async (visible) => {
+    if (!visible) return
+    if (appStore.droppedTorrentPaths.length > 0) {
+      activeTab.value = ADD_TASK_TYPE.TORRENT
+      await loadTorrentFromPath(appStore.droppedTorrentPaths[0])
       return
     }
-    try {
-      const { readText } = await import('@tauri-apps/plugin-clipboard-manager')
-      const text = await readText()
-      if (text && detectResource(text)) {
-        form.value.uris = text.trim()
+    if (activeTab.value === ADD_TASK_TYPE.URI && !form.value.uris) {
+      if (appStore.addTaskUrl) {
+        form.value.uris = appStore.addTaskUrl
+        appStore.addTaskUrl = ''
+        return
       }
-    } catch (e) { logger.debug('AddTask.readClipboard', e) }
-  }
-})
+      try {
+        const { readText } = await import('@tauri-apps/plugin-clipboard-manager')
+        const text = await readText()
+        if (text && detectResource(text)) {
+          form.value.uris = text.trim()
+        }
+      } catch (e) {
+        logger.debug('AddTask.readClipboard', e)
+      }
+    }
+  },
+)
 
-watch(() => appStore.droppedTorrentPaths, async (paths) => {
-  if (paths.length > 0 && props.show) {
-    activeTab.value = ADD_TASK_TYPE.TORRENT
-    await loadTorrentFromPath(paths[0])
-  }
-})
+watch(
+  () => appStore.droppedTorrentPaths,
+  async (paths) => {
+    if (paths.length > 0 && props.show) {
+      activeTab.value = ADD_TASK_TYPE.TORRENT
+      await loadTorrentFromPath(paths[0])
+    }
+  },
+)
 
 async function loadTorrentFromPath(filePath: string) {
   try {
     const bytes = await readFile(filePath)
     const uint8 = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes)
-    torrentName.value = filePath.substring(Math.max(filePath.lastIndexOf('/'), filePath.lastIndexOf('\\')) + 1) || 'unknown.torrent'
+    torrentName.value =
+      filePath.substring(Math.max(filePath.lastIndexOf('/'), filePath.lastIndexOf('\\')) + 1) || 'unknown.torrent'
     torrentBase64.value = uint8ToBase64(uint8)
     torrentLoaded.value = true
     await parseTorrentData(uint8)
@@ -142,7 +177,7 @@ async function parseTorrentData(uint8: Uint8Array) {
 
     torrentInfoHash.value = result.infoHash
     torrentFiles.value = result.files
-    selectedFileIndices.value = result.files.map(f => f.idx)
+    selectedFileIndices.value = result.files.map((f) => f.idx)
   } catch (e) {
     logger.error('AddTask.parseTorrentData', e)
     torrentFiles.value = []
@@ -175,10 +210,10 @@ function handleTabChange(name: string) {
       if (wrapper) {
         const endHeight = wrapper.scrollHeight
         if (Math.abs(startHeight - endHeight) > 2) {
-          wrapper.animate(
-            [{ height: startHeight + 'px' }, { height: endHeight + 'px' }],
-            { duration: 300, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
-          )
+          wrapper.animate([{ height: startHeight + 'px' }, { height: endHeight + 'px' }], {
+            duration: 300,
+            easing: 'cubic-bezier(0.2, 0, 0, 1)',
+          })
         }
       }
     })
@@ -189,17 +224,21 @@ async function chooseDirectory() {
   try {
     const selected = await openDialog({ directory: true, multiple: false })
     if (typeof selected === 'string') form.value.dir = selected
-  } catch (e) { logger.debug('AddTask.chooseDirectory', e) }
+  } catch (e) {
+    logger.debug('AddTask.chooseDirectory', e)
+  }
 }
 
 async function chooseTorrentFile() {
   try {
     const selected = await openDialog({
       multiple: false,
-      filters: [{ name: 'Torrent', extensions: ['torrent'] }]
+      filters: [{ name: 'Torrent', extensions: ['torrent'] }],
     })
     if (typeof selected === 'string') await loadTorrentFromPath(selected)
-  } catch (e) { logger.debug('AddTask.chooseTorrentFile', e) }
+  } catch (e) {
+    logger.debug('AddTask.chooseTorrentFile', e)
+  }
 }
 
 function handleClose() {
@@ -243,10 +282,10 @@ async function handleSubmit() {
       if (torrentInfoHash.value && isEngineReady()) {
         const { getClient } = await import('@/api/aria2')
         const [active, waiting] = await Promise.all([
-          getClient().call<{infoHash?: string}[]>('tellActive', ['infoHash']),
-          getClient().call<{infoHash?: string}[]>('tellWaiting', 0, 1000, ['infoHash']),
+          getClient().call<{ infoHash?: string }[]>('tellActive', ['infoHash']),
+          getClient().call<{ infoHash?: string }[]>('tellWaiting', 0, 1000, ['infoHash']),
         ])
-        const existing = [...active, ...waiting].map(t => t.infoHash).filter(Boolean)
+        const existing = [...active, ...waiting].map((t) => t.infoHash).filter(Boolean)
         if (existing.includes(torrentInfoHash.value)) {
           message.warning(t('task.duplicate-task'), { duration: 5000, closable: true })
           return
@@ -262,15 +301,20 @@ async function handleSubmit() {
     }
     handleClose()
     if (form.value.newTaskShowDownloading) {
-      router.push({ path: '/task/active' }).catch(() => { /* duplicate navigation */ })
+      router.push({ path: '/task/active' }).catch(() => {
+        /* duplicate navigation */
+      })
     }
   } catch (e: unknown) {
-    const errMsg = (e instanceof Error) ? e.message : String(e)
+    const errMsg = e instanceof Error ? e.message : String(e)
     logger.error('AddTask.submit', e)
     if (errMsg.includes('not initialized') || !isEngineReady()) {
       message.error(t('app.engine-not-ready'), { duration: 5000, closable: true })
     } else if (/duplicate|already/i.test(errMsg)) {
-      message.warning(t('task.duplicate-task') || 'This task already exists and cannot be added again.', { duration: 5000, closable: true })
+      message.warning(t('task.duplicate-task') || 'This task already exists and cannot be added again.', {
+        duration: 5000,
+        closable: true,
+      })
     } else {
       message.error(errMsg, { duration: 5000, closable: true })
     }
@@ -287,8 +331,12 @@ function handleHotkey(event: KeyboardEvent) {
   }
 }
 
-onMounted(() => { document.addEventListener('keydown', handleHotkey) })
-onUnmounted(() => { document.removeEventListener('keydown', handleHotkey) })
+onMounted(() => {
+  document.addEventListener('keydown', handleHotkey)
+})
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleHotkey)
+})
 </script>
 
 <template>
@@ -299,7 +347,11 @@ onUnmounted(() => { document.removeEventListener('keydown', handleHotkey) })
     :auto-focus="false"
     transform-origin="center"
     :transition="{ name: 'fade-scale' }"
-    @update:show="(v: boolean) => { if (!v) handleClose() }"
+    @update:show="
+      (v: boolean) => {
+        if (!v) handleClose()
+      }
+    "
   >
     <NCard
       :title="t('task.new-task')"
@@ -314,7 +366,7 @@ onUnmounted(() => { document.removeEventListener('keydown', handleHotkey) })
         <NTabs :value="activeTab" type="line" animated @update:value="handleTabChange">
           <NTabPane :name="ADD_TASK_TYPE.URI" :tab="t('task.uri-task') || 'URL'">
             <div class="tab-pane-content">
-              <NFormItem :show-label="false" style="margin-bottom: 0;">
+              <NFormItem :show-label="false" style="margin-bottom: 0">
                 <NInput
                   v-model:value="form.uris"
                   type="textarea"
@@ -325,43 +377,27 @@ onUnmounted(() => { document.removeEventListener('keydown', handleHotkey) })
             </div>
           </NTabPane>
           <NTabPane :name="ADD_TASK_TYPE.TORRENT" :tab="t('task.torrent-task') || 'Torrent'">
-            <div class="tab-pane-content">
-              <Transition name="torrent-swap" mode="out-in">
-                <div v-if="torrentLoaded" key="loaded" class="torrent-loaded">
-                  <div class="torrent-info-row">
-                    <NTooltip>
-                      <template #trigger>
-                        <div class="torrent-filename">
-                          <NIcon :size="18" style="margin-right: 6px; flex-shrink: 0;"><CloudUploadOutline /></NIcon>
-                          <span>{{ torrentName }}</span>
-                        </div>
-                      </template>
-                      {{ torrentName }}
-                    </NTooltip>
-                    <NButton quaternary size="small" type="error" @click="clearTorrent">
-                      <template #icon><NIcon :size="16"><TrashOutline /></NIcon></template>
-                    </NButton>
-                  </div>
-                  <div v-if="torrentFiles.length > 0" class="torrent-file-list">
-                    <NDataTable
-                      v-model:checked-row-keys="checkedRowKeys"
-                      :columns="fileColumns"
-                      :data="torrentFiles"
-                      :row-key="(row: any) => row.idx as number"
-                      size="small"
-                      :max-height="200"
-                      :scroll-x="400"
-                    />
-                  </div>
+            <TorrentUpload
+              :loaded="torrentLoaded"
+              :name="torrentName"
+              @choose="chooseTorrentFile"
+              @clear="clearTorrent"
+            >
+              <template #file-list>
+                <div v-if="torrentFiles.length > 0" class="torrent-file-list">
+                  <NDataTable
+                    v-model:checked-row-keys="checkedRowKeys"
+                    :columns="fileColumns"
+                    :data="torrentFiles"
+                    :row-key="(row: any) => row.idx as number"
+                    size="small"
+                    :max-height="200"
+                    :scroll-x="400"
+                  />
                 </div>
-                <div v-else key="empty" class="torrent-upload" @click="chooseTorrentFile">
-                  <NIcon :size="48" :depth="3"><CloudUploadOutline /></NIcon>
-                  <NText style="display: block; margin-top: 8px; font-size: 14px;">
-                    {{ t('task.select-torrent') || 'Drag torrent here or click to select' }}
-                  </NText>
-                </div>
-              </Transition>
-            </div>
+              </template>
+              <template #placeholder>{{ t('task.select-torrent') || 'Drag torrent here or click to select' }}</template>
+            </TorrentUpload>
           </NTabPane>
         </NTabs>
         <div class="tab-shared-form">
@@ -373,51 +409,29 @@ onUnmounted(() => { document.removeEventListener('keydown', handleHotkey) })
             </NGridItem>
             <NGridItem :span="9">
               <NFormItem :label="t('task.task-split') + ':'">
-                <NInputNumber v-model:value="form.split" :min="1" :max="maxSplit" style="width: 100%;" />
+                <NInputNumber v-model:value="form.split" :min="1" :max="maxSplit" style="width: 100%" />
               </NFormItem>
             </NGridItem>
           </NGrid>
           <NFormItem :label="t('task.task-dir') + ':'">
             <NInputGroup>
-              <NInput v-model:value="form.dir" style="flex: 1;" />
+              <NInput v-model:value="form.dir" style="flex: 1" />
               <NButton @click="chooseDirectory">
-                <template #icon><NIcon><FolderOpenOutline /></NIcon></template>
+                <template #icon
+                  ><NIcon><FolderOpenOutline /></NIcon
+                ></template>
               </NButton>
             </NInputGroup>
           </NFormItem>
-          <NFormItem :show-label="false">
-            <NCheckbox v-model:checked="showAdvanced">
-              {{ t('task.show-advanced-options') }}
-            </NCheckbox>
-          </NFormItem>
-          <NCollapseTransition :show="showAdvanced">
-            <div>
-              <NFormItem :label="t('task.task-user-agent') + ':'">
-                <NInput v-model:value="form.userAgent" type="textarea" :autosize="{ minRows: 2, maxRows: 3 }" />
-              </NFormItem>
-              <NFormItem :label="t('task.task-authorization') + ':'">
-                <NInput v-model:value="form.authorization" type="textarea" :autosize="{ minRows: 2, maxRows: 3 }" />
-              </NFormItem>
-              <NFormItem :label="t('task.task-referer') + ':'">
-                <NInput v-model:value="form.referer" type="textarea" :autosize="{ minRows: 2, maxRows: 3 }" />
-              </NFormItem>
-              <NFormItem :label="t('task.task-cookie') + ':'">
-                <NInput v-model:value="form.cookie" type="textarea" :autosize="{ minRows: 2, maxRows: 3 }" />
-              </NFormItem>
-              <NGrid :cols="24" :x-gap="12">
-                <NGridItem :span="16">
-                  <NFormItem :label="t('task.task-proxy') + ':'">
-                    <NInput v-model:value="form.allProxy" placeholder="[http://][USER:PASSWORD@]HOST[:PORT]" />
-                  </NFormItem>
-                </NGridItem>
-              </NGrid>
-              <NFormItem :show-label="false">
-                <NCheckbox v-model:checked="form.newTaskShowDownloading">
-                  {{ t('task.navigate-to-downloading') }}
-                </NCheckbox>
-              </NFormItem>
-            </div>
-          </NCollapseTransition>
+          <AdvancedOptions
+            v-model:show="showAdvanced"
+            v-model:user-agent="form.userAgent"
+            v-model:authorization="form.authorization"
+            v-model:referer="form.referer"
+            v-model:cookie="form.cookie"
+            v-model:all-proxy="form.allProxy"
+            v-model:new-task-show-downloading="form.newTaskShowDownloading"
+          />
         </div>
       </NForm>
       <template #footer>
@@ -431,64 +445,6 @@ onUnmounted(() => { document.removeEventListener('keydown', handleHotkey) })
 </template>
 
 <style scoped>
-.tab-pane-content {
-  min-height: 150px;
-  padding-bottom: 12px;
-}
-.torrent-swap-enter-active {
-  transition: opacity 0.22s cubic-bezier(0.2, 0, 0, 1), transform 0.22s cubic-bezier(0.2, 0, 0, 1);
-}
-.torrent-swap-leave-active {
-  transition: opacity 0.15s cubic-bezier(0.3, 0, 0.8, 0.15), transform 0.15s cubic-bezier(0.3, 0, 0.8, 0.15);
-}
-.torrent-swap-enter-from {
-  opacity: 0;
-  transform: scale(0.96);
-}
-.torrent-swap-leave-to {
-  opacity: 0;
-  transform: scale(0.96);
-}
-.torrent-upload {
-  min-height: 138px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 0.2s cubic-bezier(0.2, 0, 0, 1);
-}
-.torrent-upload:hover {
-  border-color: var(--color-primary);
-}
-.torrent-info-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  margin-bottom: 10px;
-}
-.torrent-filename {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: 14px;
-  flex: 1;
-  min-width: 0;
-}
-.torrent-filename span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .torrent-file-list {
   margin-top: 4px;
 }
