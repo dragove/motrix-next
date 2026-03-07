@@ -63,7 +63,21 @@
         "description": "Metalink File",
         "role": "Viewer"
       }
-    ]
+    ],
+    "macOS": {
+      "bundleName": "Motrix Next"
+    },
+    "windows": {
+      "nsis": {
+        "startMenuFolder": "Motrix Next"
+      }
+    },
+    "linux": {
+      "deb": {
+        "desktopTemplate": "desktop/app.desktop"
+      },
+      "appimage": {}
+    }
   },
   "plugins": {
     "updater": {
