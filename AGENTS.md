@@ -200,6 +200,12 @@ The user's channel preference is stored as `updateChannel` in the preference sto
    | "Set as latest release" | ✅ Yes | ❌ No |
    | "Set as a pre-release" | ❌ No | ✅ Yes |
 
+   > **Both the tag name AND the pre-release checkbox matter.** They control different systems:
+   > - **Tag name** (`-beta` / `-rc`) → tells CI which updater JSON to write (`latest.json` vs `beta.json`)
+   > - **"Set as a pre-release"** → tells GitHub to exclude it from the "Latest" badge and the `/releases/latest` API (used by the website download page)
+   >
+   > If a beta release is NOT marked as pre-release, the website will serve the beta version to all users.
+
 4. **Click Publish** — CI automatically builds for all 4 platforms and uploads the updater JSON.
 
 ### Updater Principles

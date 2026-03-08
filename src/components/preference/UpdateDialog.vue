@@ -157,9 +157,9 @@ defineExpose({ open })
   >
     <div class="update-dialog">
       <div class="update-dialog-header">
-        <span class="update-dialog-title">{{ t('preferences.auto-update') }}</span>
-        <div class="update-channel-badge">
-          <NTag :type="activeChannel === 'beta' ? 'warning' : 'success'" size="medium" round :bordered="false">
+        <div class="update-dialog-title-group">
+          <span class="update-dialog-title">{{ t('preferences.auto-update') }}</span>
+          <NTag :type="activeChannel === 'beta' ? 'warning' : 'success'" size="small" round :bordered="false">
             {{ t(`preferences.update-channel-${activeChannel}`) }}
           </NTag>
         </div>
@@ -294,10 +294,10 @@ defineExpose({ open })
   justify-content: center;
   overflow: hidden;
 }
-.update-channel-badge {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+.update-dialog-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .update-phase {
   display: flex;
